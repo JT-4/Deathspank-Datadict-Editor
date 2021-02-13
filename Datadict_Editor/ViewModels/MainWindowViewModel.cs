@@ -328,7 +328,7 @@ namespace Datadict_Editor
         /// </summary>
         private void ReadMe_Execute()
         {
-            System.Diagnostics.Process.Start("https://github.com/JT-4/Datadict_Editor");
+            System.Diagnostics.Process.Start("https://github.com/JT-4/Deathspank-Datadict-Editor");
         }
 
         /// <summary>
