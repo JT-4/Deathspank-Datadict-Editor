@@ -1,4 +1,4 @@
-This GUI based editor was developed to provide an easier way of editing Deathspank "*.datadict" files. By coincidence, the deathspank "*.textdict" have the same format and can be edited using this same editor. 
+This GUI based editor was developed to provide an easier way of editing Deathspank ".datadict" files. By coincidence, the deathspank ".textdict" have the same format and can be edited using this same editor. This should allow for easier fan translations if that is your goal.
 
 
 Using the program:
