@@ -1,0 +1,232 @@
+﻿<Window x:Class="Datadict_Editor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Datadict_Editor"
+        mc:Ignorable="d"
+        Title="Deathspank Datadict File Editor" Height="450" Width="800" MinWidth="800" MinHeight="350" WindowStyle="ThreeDBorderWindow" Icon="OK-K.jpg">
+
+    <Window.Resources>
+        <!-- Declare Window Resources-->
+        
+        <!-- Value Converters for the UI -->
+        <local:ByteArraytoASCII_Converter x:Key="bytetoascii_converter"/>
+        <local:DescriptionByteArray_Converter x:Key="description_converter"/>
+
+        <!-- Declare Attribute Template Selector -->
+        <local:AttributeTemplateSelector x:Key="ATS"/>
+        <!-- Define the datatmplates to be used for user attribute editing-->
+        
+        <!-- Datatemplate for attributes with a 4 byte value-->
+        <DataTemplate x:Key="FourbyteAttribute">
+            
+                <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Description" Grid.Column="0" Grid.Row="0" />
+                <Label Content="type" Grid.Column="1" Grid.Row="0"/>
+                <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
+
+                <TextBox Width="100" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center" />
+                <TextBox Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center" />
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="15,0">
+                    <TextBox Text="{Binding Path=Value[0], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"  />
+                    <TextBox Text="{Binding Path=Value[1], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0" />
+                    <TextBox Text="{Binding Path=Value[2], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0" />
+                    <TextBox Text="{Binding Path=Value[3], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0" />
+                </StackPanel>
+            </Grid>
+            
+        </DataTemplate>
+        <!-- Datatemplate for attributes with a 8 byte value-->
+        <DataTemplate x:Key="EightbyteAttribute">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Description" Grid.Column="0" Grid.Row="0"/>
+                <Label Content="type" Grid.Column="1" Grid.Row="0"/>
+                <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
+
+                <TextBox Width="100" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <TextBox Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="15,0">
+                    <TextBox Text="{Binding Path=Value[0], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False"  Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[1], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[2], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[3], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[4], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False"  Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[5], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[6], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[7], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                </StackPanel>
+            </Grid>
+
+        </DataTemplate>
+        <!-- Datatemplate for attributes with a 16 byte value-->
+        <DataTemplate x:Key="SixteenbyteAttribute">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Description" Grid.Column="0" Grid.Row="0"/>
+                <Label Content="type" Grid.Column="1" Grid.Row="0"/>
+                <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
+
+                <TextBox Width="100" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <TextBox Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="15,0">
+                    <TextBox Text="{Binding Path=Value[0], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0" />
+                    <TextBox Text="{Binding Path=Value[1], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[2], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[3], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[4], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0" />
+                    <TextBox Text="{Binding Path=Value[5], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[6], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[7], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[8], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0" />
+                    <TextBox Text="{Binding Path=Value[9], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[10], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[11], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[12], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False"  Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[13], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[14], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[15], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                </StackPanel>
+            </Grid>
+
+        </DataTemplate>
+        <!-- Datatemplate for attributes with a variable byte length
+        that is meant to be interpereted as a string value-->
+        <DataTemplate x:Key="StringAttribute">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Description" Grid.Column="0" Grid.Row="0"/>
+                <Label Content="type" Grid.Column="1" Grid.Row="0"/>
+                <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
+
+                <TextBox Width="100" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <TextBox  Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <TextBox Text="{Binding Path=Value, Converter={StaticResource bytetoascii_converter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Grid.Column="2" Grid.Row="1" Margin="15,0" Padding="10,0" IsUndoEnabled="True"/>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+
+        
+        <!-- Main window Layout-->
+    <Grid >
+        <!-- File Menu Layout-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+                
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!--File Menu-->
+        <Border BorderBrush="Black" BorderThickness=".5">
+        <DockPanel>
+            <Menu IsMainMenu="True" Height="20" >
+                <MenuItem Header="File" Margin="20,0">
+                    <MenuItem Header="Open" Command="{Binding OpenFile_Command}"/>
+                        <MenuItem Header="Save as" Command="{Binding SaveAs_Command}"/>
+                    <Separator/>
+                    <MenuItem Header="Exit" Command="{Binding ExitApplication_Command}"/>
+                </MenuItem>
+                    <MenuItem Header="About" Height="20">
+                        <MenuItem Header="Info" Command="{Binding Info_Command}">
+                            
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="Read Me" Command="{Binding ReadMe_Command}">
+                            
+                        </MenuItem>
+                    </MenuItem>
+            </Menu>
+        </DockPanel>
+        </Border>
+        <!--Main Window Layout-->
+        <Grid Margin="15,0,15,15" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--Object Selection Layout-->
+            <Border BorderBrush="Black" BorderThickness=".5">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0">
+                        <Label Content="{Binding CurrentOpenFileName}"/>
+                        <Label Content="File Items" />
+                    </StackPanel>
+                    <ListBox ItemsSource="{Binding DDObjects}" 
+                      ScrollViewer.VerticalScrollBarVisibility="Visible"
+                      SelectedItem="{Binding SelectedObject}"
+                      Grid.Row="1">
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Display}" Height="25"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+            </Border>
+
+            <!--Object Editor Layout-->
+            <Border Grid.Column="2" BorderThickness=".5" BorderBrush="Black" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Selected Datadict Object Attributes" Grid.Row="0"/>
+                    
+                    <ListBox x:Name="DataDictObjEditor_Listview"  Grid.Row="1" 
+                             ScrollViewer.VerticalScrollBarVisibility="Auto"
+                             ItemsSource="{Binding SelectedObject.DataDictObjects, Mode=TwoWay}"
+                             ItemTemplateSelector="{StaticResource ATS}">
+
+                    </ListBox>
+                </Grid>
+            </Border>
+
+
+        </Grid>
+    </Grid>
+
+</Window>
