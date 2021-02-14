@@ -1,5 +1,6 @@
 This GUI based editor was developed to provide an easier way of editing Deathspank ".datadict" files. By coincidence, the deathspank ".textdict" have the same format and can be edited using this same editor. This should allow for easier fan translations if that is your goal.
 
+![Image of Editor](https://overkillscriptinghome.files.wordpress.com/2021/02/loadedobjects_selection.png)
 
 Using the program:
  - Open a deathspank datadict file using the file menu
@@ -8,7 +9,9 @@ Using the program:
  - Modify the desired values by editing the "values" field in the right side window
  - Use File > Save As to output the changes to a new file.
  
- If you enter an incorrect value into a byte field, the texbox will be highlighted in red.
+ If you enter an incorrect value into a byte field, such as a string or a number outside the range 0-255, the texbox will be highlighted in red.
+ 
+ ![Image of Incorrect Format](https://overkillscriptinghome.files.wordpress.com/2021/02/byte_validation.png)
  
  The saved files have a slightly different format than the original files. The original files use a form of compression/deduplication that I purposfully removed. This is so every object attribute value has a unique entry in the file instead of having multiple attributes with pointers to the same data. This allows for editing a single object at a time without affecting any other object attributes. See this writeup for more information: https://overkillscripting.home.blog/2021/01/24/hero-to-the-downtrodden-reverse-engineering-and-improving-deathspank/ 
  
