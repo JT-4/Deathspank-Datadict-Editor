@@ -13,9 +13,11 @@
         <!-- Value Converters for the UI -->
         <local:ByteArraytoASCII_Converter x:Key="bytetoascii_converter"/>
         <local:DescriptionByteArray_Converter x:Key="description_converter"/>
+        <local:DecimalBytetoHex_Converter x:Key="decimalbytetohex_converter"/>
 
         <!-- Declare Attribute Template Selector -->
         <local:AttributeTemplateSelector x:Key="ATS"/>
+        <local:HexAttributeTemplateSelector x:Key="HexATS"/>
         <!-- Define the datatmplates to be used for user attribute editing-->
         
         <!-- Datatemplate for attributes with a 4 byte value-->
@@ -42,10 +44,42 @@
                     <TextBox Text="{Binding Path=Value[1], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0" />
                     <TextBox Text="{Binding Path=Value[2], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0" />
                     <TextBox Text="{Binding Path=Value[3], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0" />
+                    
                 </StackPanel>
+                
             </Grid>
             
         </DataTemplate>
+        
+        <!-- Datatemplate for attribute with a 4 byte value displayed in hexidecimal format-->
+        <DataTemplate x:Key="HexFourbyteAttribute">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Description" Grid.Column="0" Grid.Row="0" />
+                <Label Content="type" Grid.Column="1" Grid.Row="0"/>
+                <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
+
+                <TextBox Width="100" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center" />
+                <TextBox Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center" />
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="15,0" >
+                    <TextBox Text="{Binding Path=Value[0], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"  />
+                    <TextBox Text="{Binding Path=Value[1], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0" />
+                    <TextBox Text="{Binding Path=Value[2], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0" />
+                    <TextBox Text="{Binding Path=Value[3], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0" />
+                </StackPanel>
+            </Grid>
+
+        </DataTemplate>
+
         <!-- Datatemplate for attributes with a 8 byte value-->
         <DataTemplate x:Key="EightbyteAttribute">
 
@@ -74,6 +108,40 @@
                     <TextBox Text="{Binding Path=Value[5], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
                     <TextBox Text="{Binding Path=Value[6], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
                     <TextBox Text="{Binding Path=Value[7], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                </StackPanel>
+            </Grid>
+
+        </DataTemplate>
+
+        <DataTemplate x:Key="HexEightbyteAttribute">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Description" Grid.Column="0" Grid.Row="0"/>
+                <Label Content="type" Grid.Column="1" Grid.Row="0"/>
+                <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
+
+                <TextBox Width="100" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <TextBox Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="15,0">
+                    <TextBox Text="{Binding Path=Value[0], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False"  Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[1], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[2], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[3], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[4], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False"  Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[5], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[6], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[7], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    
                 </StackPanel>
             </Grid>
 
@@ -114,6 +182,46 @@
                     <TextBox Text="{Binding Path=Value[13], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
                     <TextBox Text="{Binding Path=Value[14], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
                     <TextBox Text="{Binding Path=Value[15], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"/>
+                </StackPanel>
+            </Grid>
+
+        </DataTemplate>
+
+        <DataTemplate x:Key="HexSixteenbyteAttribute">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Description" Grid.Column="0" Grid.Row="0"/>
+                <Label Content="type" Grid.Column="1" Grid.Row="0"/>
+                <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
+
+                <TextBox Width="100" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <TextBox Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="15,0">
+                    <TextBox Text="{Binding Path=Value[0], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0" />
+                    <TextBox Text="{Binding Path=Value[1], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[2], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[3], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[4], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0" />
+                    <TextBox Text="{Binding Path=Value[5], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[6], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[7], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[8], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0" />
+                    <TextBox Text="{Binding Path=Value[9], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[10], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[11], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[12], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False"  Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[13], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[14], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
+                    <TextBox Text="{Binding Path=Value[15], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"/>
                 </StackPanel>
             </Grid>
 
@@ -162,7 +270,13 @@
                     <Separator/>
                     <MenuItem Header="Exit" Command="{Binding ExitApplication_Command}"/>
                 </MenuItem>
-                    <MenuItem Header="About" Height="20">
+                    <MenuItem Header="Options" Margin="5,0">
+                        <MenuItem Header="Display Hexadecimal"  
+                                  IsCheckable="True" 
+                                  IsChecked="{Binding IsHexadecimalDisplayed, Mode=TwoWay}">
+                        </MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="About" Height="20" Margin="20,0">
                         <MenuItem Header="Info" Command="{Binding Info_Command}">
                             
                         </MenuItem>
@@ -196,7 +310,8 @@
                     <ListBox ItemsSource="{Binding DDObjects}" 
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                       SelectedItem="{Binding SelectedObject}"
-                      Grid.Row="1">
+                      Grid.Row="1"
+                      SelectedIndex="{Binding SelectedObjectIndex, Mode=TwoWay}" BorderBrush="#FFABADB3">
 
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -216,12 +331,14 @@
                     </Grid.RowDefinitions>
                     <Label Content="Selected Datadict Object Attributes" Grid.Row="0"/>
                     
-                    <ListBox x:Name="DataDictObjEditor_Listview"  Grid.Row="1" 
+                    <ListBox x:Name="DecimalDataDictObjEditor_Listview"  Grid.Row="1" 
                              ScrollViewer.VerticalScrollBarVisibility="Auto"
                              ItemsSource="{Binding SelectedObject.DataDictObjects, Mode=TwoWay}"
-                             ItemTemplateSelector="{StaticResource ATS}">
+                             ItemTemplateSelector="{StaticResource ATS}"
+                             SelectedItem="{Binding SelectedAttribute}">
 
                     </ListBox>
+                    
                 </Grid>
             </Border>
 

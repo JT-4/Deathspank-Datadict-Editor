@@ -26,6 +26,8 @@ namespace Datadict_Editor
             this.SaveAs_Command = new RelayCommand(SaveAs_Execute);
             this.Info_Command = new RelayCommand(Info_Execute);
             this.ReadMe_Command = new RelayCommand(ReadMe_Execute);
+            this.HexDisplay_Command = new RelayCommand(HexDisplay_Execute);
+            
 
             DDObjects = new ObservableCollection<DataDict_Object>();
             SaveAsFinalData = new List<byte>();
@@ -33,6 +35,8 @@ namespace Datadict_Editor
             SaveAsAttributeDescription = new List<byte>();
             
         }
+
+        
         #endregion
 
         /// <summary>
@@ -47,6 +51,11 @@ namespace Datadict_Editor
         private int unsavedChanges;
         //private backing for SelectedObject to impliment onpropertychanged
         private DataDict_Object selectedobject;
+        //private backing for IsHexidecimalDisplayed to impliment onpropertychanged
+        private bool isHexadecimalDisplayed;
+        private DataDict_Attribute selectedattribute;
+        //private backing for SelectedObjectIndex to impliment onpropertychanged
+        private int selectedobjectindex;
         #endregion
 
         #region Public Objects
@@ -142,6 +151,45 @@ namespace Datadict_Editor
             } 
         }
 
+        //The currently selected attribute from the attribute editor ListBox
+        //in the UI. Impliments OnPropertyChanged
+        public DataDict_Attribute SelectedAttribute 
+        {
+            get
+            {
+                return selectedattribute;
+            }
+            set
+            {
+                if (value != selectedattribute)
+                {
+                    selectedattribute = value;
+                    OnPropertyChanged("SelectedAttribute");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Represents the selected object index from the object listbox. Because the index is bound
+        /// two ways, manipulating this integer can programatically change the selected item in the 
+        /// listbox
+        /// </summary>
+        public int SelectedObjectIndex 
+        {
+            get
+            {
+                return selectedobjectindex;
+            }
+            set
+            {
+                if(value != selectedobjectindex)
+                {
+                    selectedobjectindex = value;
+                    OnPropertyChanged("SelectedObjectIndex");
+                }
+            }
+        }
+
         /// <summary>
         /// not fully implimented at the moment. Used to track the number of changes to datadict objects
         /// so the ui can prompt the user if they want to exit the application without saving
@@ -162,6 +210,32 @@ namespace Datadict_Editor
                 }
             }
         }
+
+        /// <summary>
+        /// A boolean that is used to toggle the way the UI displays byte values
+        /// When set to false, decimal values are used. When true, Hexadecimal is used
+        /// Impliments onproperty changed
+        /// </summary>
+        public bool IsHexadecimalDisplayed
+        {
+            get
+            {
+                return isHexadecimalDisplayed;
+            }
+            set
+            {
+                if (value != isHexadecimalDisplayed)
+                {
+                    isHexadecimalDisplayed = value;
+                    OnPropertyChanged("IsHexadecimalDisplayed");
+                    UpdateDDObjectDisplay();
+                    RefreshListbox();
+
+                }
+            }
+        }
+
+       
         #endregion
 
         #region Relay Commands
@@ -176,6 +250,10 @@ namespace Datadict_Editor
         public ICommand Info_Command { get; set; }
         public ICommand ReadMe_Command { get; set; }
 
+        public ICommand HexDisplay_Command { get; set; }
+
+        public ICommand UpdateAll_Command { get; set; }
+
         #endregion
 
         #region OnChanged Methods
@@ -188,6 +266,9 @@ namespace Datadict_Editor
         {
             //Clear all objects from the observable collection
             DDObjects.Clear();
+            //reset the hexidecimal display boolean
+            IsHexadecimalDisplayed = false;
+
             //Declare the number of objects
             //derived by bytes 4-8 of OpenFileBytes array
             int numobjects =  BitConverter.ToInt32(OpenFileBytes.Skip(4).Take(4).ToArray(), 0);
@@ -306,6 +387,28 @@ namespace Datadict_Editor
         }
 
         /// <summary>
+        /// Toggle the hexadecimal visibility boolean to the opposite of
+        /// its current value. This controls the menu item checkmark visibility
+        /// </summary>
+        private void HexDisplay_Execute()
+        {
+            IsHexadecimalDisplayed ^= true;
+        }
+
+        /// <summary>
+        /// Toggle the hexadecimal display boolean of each data dict object to
+        /// the opposite of its current value
+        /// </summary>
+        private void UpdateDDObjectDisplay()
+        {
+            foreach (DataDict_Object ddo in DDObjects)
+            {
+                //use a bitwaise operation to toggle the boolean between true and false
+                ddo.DisplayAsHex ^= true;
+            }
+        }
+
+        /// <summary>
         /// show a popup widow with simple information about the app
         /// </summary>
         private void Info_Execute()
@@ -345,6 +448,21 @@ namespace Datadict_Editor
             
             // Displays the MessageBox
             MessageBoxResult result = MessageBox.Show(message, caption, buttons);
+        }
+        
+        /// <summary>
+        /// refreshes the selected object of the listbox to trigger the 
+        /// attribute template selector to select the appropriate new value
+        /// </summary>
+        private void RefreshListbox()
+        {
+            //store the index of the currently selected lisbox obect
+            int currentindex = SelectedObjectIndex;
+
+            //de-select all objects in the listbox
+            SelectedObjectIndex = -1;
+            //restore the original selected item index of the listbox
+            SelectedObjectIndex = currentindex;
         }
 
         /// <summary>
@@ -400,29 +518,41 @@ namespace Datadict_Editor
             return inputbyteslist.ToArray();
         }
 
+        /// <summary>
+        /// output all the changes made with the editor to a new datadict file
+        /// </summary>
         private void SaveAs_Execute() 
         {
+            //make sure all the elements that may hold old data before starting the file output process
             SaveAsOutput.Clear();
             SaveAsAttributeDescription.Clear();
             SaveAsFinalData.Clear();
+            //store the header of the currently open file for later use
             SaveAsOutput = OpenFileBytes.Skip(0).Take(16 + (DDObjects.Count * 8)).ToList();
 
+            //for every datadict object in the current file
             for(int i =0; i< DDObjects.Count; i++)
             {
-                ObservableCollection<DataDict_Attribute> SaveAsAttributes = DDObjects[i].DataDictObjects;
+
+                ObservableCollection<DataDict_Attribute> SaveAsAttributes = new ObservableCollection<DataDict_Attribute>(DDObjects[i].DataDictObjects);
+                //define the attributes associated to the current data dict object
                 int SaveAsNumAttributes = DDObjects[i].NumOfAttributes;
                 // loop through all atrributes, save to the output attribute description list and final data list
                 for (int a = 0; a < SaveAsNumAttributes; a++)
                 {
+                    //add the attributes description the the attribute description array
                     SaveAsAttributeDescription.AddRange(DDObjects[i].DataDictObjects[a].Description.ToList<byte>());
                     
-                    //Set the new offset based on the current length of the final data block
+                    //Set the new offset based on the current length of the final data block and write it to the attribute description array
                     byte[] cbytes = BitConverter.GetBytes(SaveAsFinalData.Count);
                     SaveAsAttributeDescription.AddRange(cbytes.Skip(0).Take(3).ToList());
                     
+                    //write the attribute type to the attribute description array
                     SaveAsAttributeDescription.Add(DDObjects[i].DataDictObjects[a].Type);
 
+                    //based on the attribute type write the appropriate value bytes to the attribute description array
                     if (DDObjects[i].DataDictObjects[a].Type == 13) {
+
                         SaveAsFinalData.AddRange(ReturnZeroPaddedString(DDObjects[i].DataDictObjects[a].Value));
                     }
                     else
@@ -433,8 +563,9 @@ namespace Datadict_Editor
                 }
 
             }
-
+            //add the attribute description array to the final output array
             SaveAsOutput.AddRange(SaveAsAttributeDescription);
+            //add the final data array to the final output array
             SaveAsOutput.AddRange(SaveAsFinalData);
 
             //update bytes 12-16 to represent the new length of data
@@ -549,8 +680,6 @@ namespace Datadict_Editor
             }
             
         }
-
-
         #endregion
     }
 }

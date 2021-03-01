@@ -25,18 +25,43 @@ namespace Datadict_Editor
             }
             else if (attr.Type ==1 || attr.Type == 9)
             {
-                //if the attribute is of type 1 or 9 use the four byte attribute data template
-                return element.FindResource("FourbyteAttribute") as DataTemplate;
+                if (attr.DisplayAsHex == false) {
+                    //if the attribute is of type 1 or 9 use the four byte attribute data template
+                    return element.FindResource("FourbyteAttribute") as DataTemplate;
+                }
+                else
+                {
+                    //if the attribute is of type 1 or 9 use the four byte hexadecimal attribute data template
+                    return element.FindResource("HexFourbyteAttribute") as DataTemplate;
+                }
+
             }
             else if (attr.Type == 6 || attr.Type == 10)
             {
-                //if the attribute is of type 6 or 10 use the eight byte attribute data template
-                return element.FindResource("EightbyteAttribute") as DataTemplate;
+                if (attr.DisplayAsHex == false)
+                {
+                    //if the attribute is of type 6 or 10 use the eight byte attribute data template
+                    return element.FindResource("EightbyteAttribute") as DataTemplate;
+                }
+                else
+                {
+                    //if the attribute is of type 6 or 10 use the hexadecimal eight byte attribute data template
+                    return element.FindResource("HexEightbyteAttribute") as DataTemplate;
+                }
+                    
             }
             else if (attr.Type == 12)
             {
-                //if the attribute is of type 12 use the sixteen byte attribute data template
-                return element.FindResource("SixteenbyteAttribute") as DataTemplate;
+                if (attr.DisplayAsHex == false)
+                {
+                    //if the attribute is of type 12 use the sixteen byte attribute data template
+                    return element.FindResource("SixteenbyteAttribute") as DataTemplate;
+                }
+                else
+                {
+                    //if the attribute is of type 12 use the hexadecimal sixteen byte attribute data template
+                    return element.FindResource("HexSixteenbyteAttribute") as DataTemplate;
+                }   
             }
             //else the attribute must have a value that is a string
             //use the string attribute data template

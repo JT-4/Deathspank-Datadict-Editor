@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Globalization;
 using System.Text;
 using System.Windows.Data;
@@ -23,6 +24,7 @@ namespace Datadict_Editor
             string asciistring = Encoding.ASCII.GetString(bytes);
             //return the string
             return asciistring;
+                  
         }
 
         /// <summary>

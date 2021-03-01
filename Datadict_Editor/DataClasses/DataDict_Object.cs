@@ -9,16 +9,19 @@ namespace Datadict_Editor
     /// Datadict file. The ObjectID value has been added for simple tracking purposes and to keep the order of the orginal 
     /// file structure (which objects came 1st 2nd 3rd etc.)
     /// </summary>
-    public class DataDict_Object
+    public class DataDict_Object : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private bool displayashex { get; set; }
+
         public DataDict_Object()
         {
             //instantiate the DataDictObjects observable collection so objects can be added
             // using the .add() method
-            DataDictObjects = new ObservableCollection<DataDict_Attribute>();
+            DataDictObjects = new BindingList<DataDict_Attribute>();
         }
         //An observable collection containing all of the attributes for the Datadict object
-        public ObservableCollection<DataDict_Attribute> DataDictObjects { get ; set; }
+        public BindingList<DataDict_Attribute> DataDictObjects { get ; set; }
         
         // The number of attributes that the Datadict file object contains
         public int NumOfAttributes { get; set; }
@@ -33,7 +36,45 @@ namespace Datadict_Editor
                 return $"Object {ObjectID} (Number of Attributes: {NumOfAttributes})";
             } 
         }
-        
+
+        public bool DisplayAsHex {
+            get 
+            {
+                return displayashex;
+            }
+            set 
+            {
+                if (value != displayashex)
+                {
+                    displayashex = value;
+                    UpdateAttributeDisplayAsHex();
+                    OnPropertyChanged("DisplayAsHex");
+                }
+            }
+        }
+
+        private void UpdateAttributeDisplayAsHex()
+        {
+            foreach (DataDict_Attribute atr in DataDictObjects)
+            {
+
+                atr.DisplayAsHex ^= true;
+            }
+        }
+
+        /// <summary>
+        /// Raises the Property Changed event for the Member that was changed
+        /// </summary>
+        /// <param  name="propertyName" > Represents the name of the member who was changed</param>
+        private void OnPropertyChanged(string propertyName)
+        {
+            var propertyChanged = PropertyChanged;
+            if (propertyChanged != null)
+            {
+                propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
 
     }
 
@@ -87,6 +128,8 @@ namespace Datadict_Editor
                 }
             } 
         }
+
+        public bool DisplayAsHex { get; set; }
       
         /// <summary>
         /// Raises the Property Changed event for the Member that was changed

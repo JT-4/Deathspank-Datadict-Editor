@@ -16,6 +16,6 @@ namespace Datadict_Editor
             this.DataContext = new MainWindowViewModel();
         }
 
- 
+       
     }
 }
