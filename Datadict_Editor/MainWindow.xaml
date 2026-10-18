@@ -19,13 +19,12 @@
         <local:AttributeTemplateSelector x:Key="ATS"/>
         <local:HexAttributeTemplateSelector x:Key="HexATS"/>
         <!-- Define the datatmplates to be used for user attribute editing-->
-        
-        <!-- Datatemplate for attributes with a 4 byte value-->
-        <DataTemplate x:Key="FourbyteAttribute">
-            
-                <Grid>
+        <!-- Datatemplate for floats-->
+        <DataTemplate x:Key="FourbyteFloat">
+
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
@@ -37,7 +36,36 @@
                 <Label Content="type" Grid.Column="1" Grid.Row="0"/>
                 <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
 
-                <TextBox Width="100" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center" />
+                <TextBox Width="Auto" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center" />
+                <TextBox Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center" />
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="15,0">
+ 
+                    <TextBox Text="{Binding Path=fValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" IsReadOnly="False" Padding="5,0" Width="100"/>
+
+                </StackPanel>
+
+            </Grid>
+
+        </DataTemplate>
+
+        <!-- Datatemplate for attributes with a 4 byte value-->
+        <DataTemplate x:Key="FourbyteAttribute">
+            
+                <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Description" Grid.Column="0" Grid.Row="0" />
+                <Label Content="type" Grid.Column="1" Grid.Row="0"/>
+                <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
+
+                <TextBox Width="Auto" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center" />
                 <TextBox Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center" />
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="15,0">
                     <TextBox Text="{Binding Path=Value[0], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0"  />
@@ -56,7 +84,7 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
@@ -68,7 +96,7 @@
                 <Label Content="type" Grid.Column="1" Grid.Row="0"/>
                 <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
 
-                <TextBox Width="100" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center" />
+                <TextBox Width="Auto" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center" />
                 <TextBox Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center" />
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="15,0" >
                     <TextBox Text="{Binding Path=Value[0], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0"  />
@@ -85,7 +113,7 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
@@ -97,7 +125,7 @@
                 <Label Content="type" Grid.Column="1" Grid.Row="0"/>
                 <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
 
-                <TextBox Width="100" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <TextBox Width="Auto" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
                 <TextBox Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="15,0">
                     <TextBox Text="{Binding Path=Value[0], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False"  Padding="5,0"/>
@@ -117,7 +145,7 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     
@@ -130,7 +158,7 @@
                 <Label Content="type" Grid.Column="1" Grid.Row="0"/>
                 <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
 
-                <TextBox Width="100" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <TextBox Width="Auto" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
                 <TextBox Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="15,0">
                     <TextBox Text="{Binding Path=Value[0], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False"  Padding="5,0"/>
@@ -151,7 +179,7 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
@@ -163,7 +191,7 @@
                 <Label Content="type" Grid.Column="1" Grid.Row="0"/>
                 <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
 
-                <TextBox Width="100" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <TextBox Width="Auto" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
                 <TextBox Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="15,0">
                     <TextBox Text="{Binding Path=Value[0], UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Padding="5,0" />
@@ -191,7 +219,7 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
@@ -203,7 +231,7 @@
                 <Label Content="type" Grid.Column="1" Grid.Row="0"/>
                 <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
 
-                <TextBox Width="100" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <TextBox Width="Auto" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
                 <TextBox Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="15,0">
                     <TextBox Text="{Binding Path=Value[0], UpdateSourceTrigger=PropertyChanged, Converter={StaticResource decimalbytetohex_converter}}" IsReadOnly="False" Padding="5,0" />
@@ -231,7 +259,7 @@
         <DataTemplate x:Key="StringAttribute">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
@@ -243,7 +271,7 @@
                 <Label Content="type" Grid.Column="1" Grid.Row="0"/>
                 <Label Content="Value" Grid.Column="2" Grid.Row="0" Margin="10,0"/>
 
-                <TextBox Width="100" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
+                <TextBox Width="Auto" Text="{Binding Path=Description, Converter={StaticResource description_converter}, Mode=OneWay}" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
                 <TextBox  Text="{Binding Path=Type, BindsDirectlyToSource=True}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" Padding="5,0" TextAlignment="Center"/>
                 <TextBox Text="{Binding Path=Value, Converter={StaticResource bytetoascii_converter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Grid.Column="2" Grid.Row="1" Margin="15,0" Padding="10,0" IsUndoEnabled="True"/>
             </Grid>
@@ -311,14 +339,26 @@
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                       SelectedItem="{Binding SelectedObject}"
                       Grid.Row="1"
+                      Grid.IsSharedSizeScope="True"
                       SelectedIndex="{Binding SelectedObjectIndex, Mode=TwoWay}" BorderBrush="#FFABADB3">
-
+                    
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Display}" Height="25"/>
-                        </DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="B"/>
+                                        <ColumnDefinition Width="*" SharedSizeGroup="C"/>
+                                    </Grid.ColumnDefinitions>
+                                <!--<TextBlock Text="{Binding Display}" Height="25"/>-->
+                                    <TextBlock Text="{Binding ObjectID, StringFormat='Object {0} '}" Grid.Column="0"/>
+                                    <TextBlock Text="{Binding DisplayDesc, StringFormat='|  {0} '}" Grid.Column="2"/>
+                                    <TextBlock Text="{Binding NumOfAttributes, StringFormat='|  Attributes: {0} '}" Grid.Column="1"/>
+                                </Grid>
+                            </DataTemplate>
                     </ListBox.ItemTemplate>
-                </ListBox>
+                        
+                    </ListBox>
             </Grid>
             </Border>
 

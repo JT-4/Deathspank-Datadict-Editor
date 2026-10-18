@@ -23,7 +23,7 @@ namespace Datadict_Editor
             {
                 return null;
             }
-            else if (attr.Type ==1 || attr.Type == 9)
+            else if (attr.Type ==1)
             {
                 if (attr.DisplayAsHex == false) {
                     //if the attribute is of type 1 or 9 use the four byte attribute data template
@@ -35,6 +35,11 @@ namespace Datadict_Editor
                     return element.FindResource("HexFourbyteAttribute") as DataTemplate;
                 }
 
+            }
+            else if (attr.Type == 9)
+            {
+                //if the attribute is of type 1 or 9 use the four byte attribute data template
+                return element.FindResource("FourbyteFloat") as DataTemplate;
             }
             else if (attr.Type == 6 || attr.Type == 10)
             {

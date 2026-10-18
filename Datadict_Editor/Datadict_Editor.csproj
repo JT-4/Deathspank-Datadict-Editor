@@ -84,6 +84,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataClasses\DataDict_Attribute.cs" />
     <Compile Include="HelperClasses\DecimalBytetoHex_Converter.cs" />
     <Compile Include="HelperClasses\DescriptionByteArray_Converter.cs" />
     <Compile Include="HelperClasses\AttributeTemplateSelector.cs" />

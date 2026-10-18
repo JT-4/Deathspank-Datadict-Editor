@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -318,8 +319,16 @@ namespace Datadict_Editor
                         Type = currentattribute[7]
                         
                     };
+                    
                     //use the get value method to return the value for this attribute based on its type and offset
                     ddattribute.Value = GetValue(ddattribute.Offset, ddattribute.Type, datablock);
+                    
+
+                    //add item description to base ddobject for the purposes of binding to the UI
+                    if (BitConverter.ToString(ddattribute.Description) == "23-F7-A3-8A")
+                    {
+                        ddobject.DisplayDesc = Encoding.ASCII.GetString(ddattribute.Value);
+                    }
                     //add the current attribute to the object's observable collection of attributes
                     ddobject.DataDictObjects.Add(ddattribute);
                 }
@@ -331,7 +340,8 @@ namespace Datadict_Editor
 
         
     }
-
+        
+       
         /// <summary>
         /// Raises the property changed event based on the property named passed in
         /// </summary>
@@ -555,6 +565,11 @@ namespace Datadict_Editor
 
                         SaveAsFinalData.AddRange(ReturnZeroPaddedString(DDObjects[i].DataDictObjects[a].Value));
                     }
+                    else if (DDObjects[i].DataDictObjects[a].Type == 9)
+                    {
+                        var t = ArrayFromFloat(DDObjects[i].DataDictObjects[a].fValue);
+                        SaveAsFinalData.AddRange(ArrayFromFloat(DDObjects[i].DataDictObjects[a].fValue));
+                    }
                     else
                     {
                         SaveAsFinalData.AddRange(DDObjects[i].DataDictObjects[a].Value);
@@ -609,6 +624,11 @@ namespace Datadict_Editor
             SaveAsOutput[13] = newdatalength[1];
             SaveAsOutput[14] = newdatalength[2];
             SaveAsOutput[15] = newdatalength[3];
+        }
+
+        private byte[] ArrayFromFloat(float f)
+        {
+            return BitConverter.GetBytes(f);
         }
 
         /// <summary>
